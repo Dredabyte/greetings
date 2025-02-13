@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greetings from Aeldred ♥ </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Spicy+Rice&family=Material+Icons&display=swap" rel="stylesheet">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            background-color: #FFB6C1;
+            color: #FF0000;
+            font-family: 'Spicy Rice', cursive;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .container {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+            max-width: 90%;
+        }
+        h1 {
+            color: #FF1493;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+        h1::before, h1::after {
+            content: "❤️";
+            margin: 0 10px;
+        }
+        p {
+            color: #DB7093;
+            font-size: 3rem;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        button {
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        button:hover {
+            background-color: #FF1493;
+        }
+        .hidden {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #DB7093;
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+        .delay {
+            animation-delay: 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .input-container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        input {
+            width: 80%;
+            max-width: 250px;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 1.5rem;
+            border: 1px solid #DB7093;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .poem-line {
+            opacity: 0;
+            font-size: 2.5rem;
+            animation: fadeIn 1s forwards;
+        }
+        .line1 { animation-delay: 0.5s; }
+        .line2 { animation-delay: 1.5s; }
+        .line3 { animation-delay: 2.5s; }
+        .material-icons {
+            font-size: 2rem;
+        }
+        .flower-img {
+            width: 150px;
+            margin-top: 20px;
+        }
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .heart-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .heart-img {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <p class="poem-line line1">A word so warm,</p>
+        <p class="poem-line line2">a name so true,</p>
+        <p class="poem-line line3">the way I always call for you. What is it?</p>
+        <input type="text" id="codeInput" placeholder="">
+        <div class="button-container">
+            <button onclick="checkCode()">Submit</button>
+        </div>
+    </div>
+    
+    <div class="container" id="greeting-container">
+        <h1 class="fade-in">Happy ♥ Day, My Love! 🎉</h1>
+        <p class="fade-in delay">Wishing you all the happiness in the world!</p>
+        <div class="button-container">
+            <button id="surprise-btn"><span class="material-icons">local_florist</span></button>
+        </div>
+        <div id="surprise" class="hidden">
+            <p>FLOWERS FOR YOU!</p>
+            <img src="flower.gif" alt="Flower" class="flower-img"><br>
+            <p>🌸 Roses are red, violets are blue,<br>
+            This flower is special, just like you.<br>
+            A token of love, forever true,<br>
+            My heart belongs only to you. 🌸</p>
+            <div class="heart-container">
+                <p>Ilooouvee yoouuuu Eliza Rose</p>
+                <img src="heart.gif" alt="Heart" class="heart-img">
+            </div>
+            <canvas id="confetti" class="confetti"></canvas>
+        </div>
+    </div>
+
+    <script>
+        function checkCode() {
+            const input = document.getElementById("codeInput").value;
+            if (input.toLowerCase() === "love") {
+                document.querySelector(".input-container").style.display = "none";
+                document.getElementById("greeting-container").style.display = "block";
+            } else {
+                alert("Ohh have you just forgot it? Huhu");
+            }
+        }
+
+        document.getElementById("surprise-btn").addEventListener("click", function() {
+            document.getElementById("surprise").style.display = "block";
+            document.getElementById("surprise").classList.add("fade-in");
+            startConfetti();
+        });
+        function startConfetti() {
+            const confettiCanvas = document.getElementById("confetti");
+            const confettiCtx = confettiCanvas.getContext("2d");
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            let particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height,
+                    r: Math.random() * 6 + 2,
+                    d: Math.random() * 10
+                });
+            }
+            function drawConfetti() {
+                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                confettiCtx.fillStyle = "#ffebeb";
+                particles.forEach(p => {
+                    confettiCtx.beginPath();
+                    confettiCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    confettiCtx.fill();
+                    p.y += p.d;
+                    if (p.y > confettiCanvas.height) p.y = 0;
+                });
+                requestAnimationFrame(drawConfetti);
+            }
+            drawConfetti();
+        }
+    </script>
+</body>
+</html>
