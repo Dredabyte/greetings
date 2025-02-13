@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greetings from Aeldred ♥</title>
+    <title>Greetings from Aeldred ♥ </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Spicy+Rice&family=Material+Icons&display=swap" rel="stylesheet">
@@ -19,11 +20,11 @@
             align-items: center;
             height: 100vh;
             flex-direction: column;
-            padding: 10px;
+            padding: 20px;
         }
         .container {
             display: none;
-            padding: 15px;
+            padding: 20px;
             animation: fadeIn 2s ease-in-out;
             max-width: 90%;
         }
@@ -32,7 +33,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: 5rem;
         }
         h1::before, h1::after {
             content: "❤️";
@@ -40,7 +41,7 @@
         }
         p {
             color: #DB7093;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: 3rem;
         }
         .button-container {
             display: flex;
@@ -53,13 +54,13 @@
             background-color: #FF69B4;
             color: white;
             border: none;
-            padding: 12px 20px;
-            font-size: clamp(1rem, 3vw, 1.5rem);
+            padding: 15px 25px;
+            font-size: 1.5rem;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 20px;
             border-radius: 10px;
-            width: 90%;
-            max-width: 280px;
+            width: 80%;
+            max-width: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -68,30 +69,70 @@
         button:hover {
             background-color: #FF1493;
         }
-        input {
+        .hidden {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #DB7093;
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+        .delay {
+            animation-delay: 1s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .input-container {
+            text-align: center;
             width: 90%;
-            max-width: 300px;
-            padding: 12px;
-            font-size: 1.2rem;
+            max-width: 400px;
+        }
+        input {
+            width: 80%;
+            max-width: 250px;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 1.5rem;
             border: 1px solid #DB7093;
             border-radius: 5px;
             text-align: center;
         }
         .poem-line {
             opacity: 0;
-            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-size: 2.5rem;
             animation: fadeIn 1s forwards;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .line1 { animation-delay: 0.5s; }
+        .line2 { animation-delay: 1.5s; }
+        .line3 { animation-delay: 2.5s; }
+        .material-icons {
+            font-size: 2rem;
         }
         .flower-img {
-            width: 120px;
-            margin-top: 15px;
+            width: 150px;
+            margin-top: 20px;
+        }
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .heart-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
         }
         .heart-img {
-            width: 80px;
+            width: 100px;
         }
     </style>
 </head>
@@ -123,9 +164,10 @@
                 <p>Ilooouvee yoouuuu Eliza Rose</p>
                 <img src="heart.gif" alt="Heart" class="heart-img">
             </div>
+            <canvas id="confetti" class="confetti"></canvas>
         </div>
     </div>
-    
+
     <script>
         function checkCode() {
             const input = document.getElementById("codeInput").value;
@@ -140,7 +182,36 @@
         document.getElementById("surprise-btn").addEventListener("click", function() {
             document.getElementById("surprise").style.display = "block";
             document.getElementById("surprise").classList.add("fade-in");
+            startConfetti();
         });
+        function startConfetti() {
+            const confettiCanvas = document.getElementById("confetti");
+            const confettiCtx = confettiCanvas.getContext("2d");
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            let particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height,
+                    r: Math.random() * 6 + 2,
+                    d: Math.random() * 10
+                });
+            }
+            function drawConfetti() {
+                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                confettiCtx.fillStyle = "#ffebeb";
+                particles.forEach(p => {
+                    confettiCtx.beginPath();
+                    confettiCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    confettiCtx.fill();
+                    p.y += p.d;
+                    if (p.y > confettiCanvas.height) p.y = 0;
+                });
+                requestAnimationFrame(drawConfetti);
+            }
+            drawConfetti();
+        }
     </script>
 </body>
 </html>
